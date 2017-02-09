@@ -29,10 +29,17 @@
   <body>
     <h1>Hello, world!</h1>
 <div id="result"></div>
-<div id="source">hoge</div>
+<form>
+uint: <input id="uint" type="text" name="uint">
+unorm: <input id="unorm" type="text" name="unorm">
+pow(1/2.2): <input id="pow1over22" type="text" name="pow(1/2.2)">
+pow(2.2): <input id="pow22" type="text" name="pow(2.2)">
+</form>
 <script>
-$("#source").on("click", function(event) {
-    $("#result").html("uhe");
+$("#uint").on("change", function(event) {
+  val val = $(this).val();
+  
+  $("#unorm").val();
 })
 </script>
   </body>
