@@ -30,17 +30,92 @@
     <h1>Hello, world!</h1>
 <div id="result"></div>
 <form>
-uint: <input id="uint" type="text" name="uint">
-unorm: <input id="unorm" type="text" name="unorm">
-pow(1/2.2): <input id="pow1over22" type="text" name="pow(1/2.2)">
-pow(2.2): <input id="pow22" type="text" name="pow(2.2)">
+uint: <input id="uint" type="text" name="uint"><br>
+unorm: <input id="unorm" type="text" name="unorm"><br>
+pow(1/2.2): <input id="pow1over22" type="text" name="pow(1/2.2)"><br>
+hex(pow(1/2.2)): <input id="hexpow1over22" type="text" name="hex(pow(1/2.2))"><br>
+pow(2.2): <input id="pow22" type="text" name="pow(2.2)"><br>
+hex(pow(2.2)): <input id="hexpow22" type="text" name="hex(pow(2.2))"><br>
 </form>
 <script>
+function toUint(unorm) {
+  return parseInt(unorm * 256.0);
+}
+function toPow1over22(unorm) {
+  return Math.pow(unorm, 1/2.2);
+}
+function toHexpow1over22(unorm) {
+  return "0x" + parseInt(Math.pow(unorm, 1/2.2) * 256).toString(16);
+}
+function toPow22(unorm) {
+  return Math.pow(unorm, 2.2);
+}
+function toHexpow22(unorm) {
+  return "0x" + parseInt(Math.pow(unorm, 2.2) * 256).toString(16);
+}
+
 $("#uint").on("change", function(event) {
-  val val = $(this).val();
+  var val = $(this).val();
+  var unorm = parseInt(val) / 255.0;
+
+  $("#unorm").val(unorm);
+  $("#pow1over22").val(toPow1over22(unorm));
+  $("#hexpow1over22").val(toHexpow1over22(unorm));
+  $("#pow22").val(toPow22(unorm));
+  $("#hexpow22").val(toHexpow22(unorm));
+});
+$("#unorm").on("change", function(event) {
+  var val = $(this).val();
+  var unorm = parseFloat(val);
+
+  $("#uint").val(toUint(unorm));
+  $("#pow1over22").val(toPow1over22(unorm));
+  $("#hexpow1over22").val(toHexpow1over22(unorm));
+  $("#pow22").val(toPow22(unorm));
+  $("#hexpow22").val(toHexpow22(unorm));
+});
+$("#pow1over22").on("change", function(event) {
+  var val = $(this).val();
+  var unorm = Math.pow(parseFloat(val), 2.2);
+
+  $("#uint").val(toUint(unorm));
+  $("#unorm").val(unorm);
+  $("#hexpow1over22").val(toHexpow1over22(unorm));
+  $("#pow22").val(toPow22(unorm));
+  $("#hexpow22").val(toHexpow22(unorm));
+});
+$("#hexpow1over22").on("change", function(event) {
+  var val = $(this).val();
+  var unorm = Math.pow(parseInt(val, 16) / 255.0, 2.2);
   
-  $("#unorm").val();
-})
+  $("#uint").val(toUint(unorm));
+  $("#unorm").val(unorm);
+  $("#pow1over22").val(toPow1over22(unorm));
+  $("#pow22").val(toPow22(unorm));
+  $("#hexpow22").val(toHexpow22(unorm));
+});
+
+$("#pow22").on("change", function(event) {
+  var val = $(this).val();
+  var unorm = Math.pow(parseFloat(val), 1/2.2);
+  
+  $("#uint").val(toUint(unorm));
+  $("#unorm").val(unorm);
+  $("#pow1over22").val(toPow1over22(unorm));
+  $("#hexpow1over22").val(toHexpow1over22(unorm));
+  $("#hexpow22").val(toHexpow22(unorm));
+});
+
+$("#hexpow22").on("change", function(event) {
+  var val = $(this).val();
+  var unorm = Math.pow(parseInt(val, 16) / 255.0, 1/2.2);
+  
+  $("#uint").val(toUint(unorm));
+  $("#unorm").val(unorm);
+  $("#pow1over22").val(toPow1over22(unorm));
+  $("#hexpow1over22").val(toHexpow1over22(unorm));
+  $("#pow22").val(toPow22(unorm));
+});
 </script>
   </body>
 </html>
